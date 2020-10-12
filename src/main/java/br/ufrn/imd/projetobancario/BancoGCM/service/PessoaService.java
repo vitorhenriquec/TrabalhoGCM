@@ -31,7 +31,7 @@ public class PessoaService {
             pessoaBD = this.findOne(pessoa.getId());
         }
 
-        BeanUtils.copyProperties(pessoaBD, pessoa, Pessoa.ignoreProperties);
+        BeanUtils.copyProperties(pessoa, pessoaBD, Pessoa.ignoreProperties);
 
         return this.pessoaRepository.save(pessoaBD);
     }
