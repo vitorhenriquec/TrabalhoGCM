@@ -37,7 +37,7 @@ public class ContaService {
             contaBD.setPessoa(pessoa);
         }
 
-        BeanUtils.copyProperties(contaBD, conta, Conta.ignoreProperties);
+        BeanUtils.copyProperties(conta, contaBD, Conta.ignoreProperties);
 
         return this.contaRepository.save(contaBD);
     }
