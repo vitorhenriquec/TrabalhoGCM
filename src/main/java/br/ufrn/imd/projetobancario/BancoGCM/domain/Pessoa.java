@@ -43,4 +43,6 @@ public class Pessoa {
 
     @OneToMany(mappedBy = "pessoa")
     private List<Conta> contas;
+
+    public static String[] ignoreProperties = {"id", "dataNascimento", "dataCriacao", "dataUltimaEdicao", "versao", "contas"};
 }

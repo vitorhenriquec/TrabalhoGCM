@@ -46,4 +46,6 @@ public class Conta {
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa pessoa;
 
+    public static String[] ignoreProperties = {"id", "dataCriacao", "dataUltimaEdicao", "versao", "pessoa"};
+
 }
