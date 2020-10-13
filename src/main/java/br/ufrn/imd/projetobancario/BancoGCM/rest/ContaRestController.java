@@ -2,12 +2,14 @@ package br.ufrn.imd.projetobancario.BancoGCM.rest;
 
 import br.ufrn.imd.projetobancario.BancoGCM.domain.Conta;
 import br.ufrn.imd.projetobancario.BancoGCM.dto.ContaDTO;
+import br.ufrn.imd.projetobancario.BancoGCM.exception.InvalidValueException;
 import br.ufrn.imd.projetobancario.BancoGCM.exception.ResourceNotFoundException;
 import br.ufrn.imd.projetobancario.BancoGCM.mapper.ContaDTOMapper;
 import br.ufrn.imd.projetobancario.BancoGCM.service.ContaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +33,12 @@ public class ContaRestController {
     public Long save(@RequestBody Conta conta) throws ResourceNotFoundException {
         return this.contaService.save(conta).getId();
     }
+
+    @PutMapping
+    public void credit(@PathVariable(name = "id") Long idConta, @RequestBody BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
+        this.contaService.credit(idConta, value);
+    }
+
 
     @DeleteMapping(path = "/{id}")
     public void delete(@PathVariable(name = "id") Long idConta) throws ResourceNotFoundException {
