@@ -2,6 +2,7 @@ package br.ufrn.imd.projetobancario.BancoGCM.service;
 
 import br.ufrn.imd.projetobancario.BancoGCM.domain.Conta;
 import br.ufrn.imd.projetobancario.BancoGCM.domain.Pessoa;
+import br.ufrn.imd.projetobancario.BancoGCM.exception.InvalidValueException;
 import br.ufrn.imd.projetobancario.BancoGCM.exception.ResourceNotFoundException;
 import br.ufrn.imd.projetobancario.BancoGCM.repository.ContaRepository;
 import br.ufrn.imd.projetobancario.BancoGCM.repository.PessoaRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -46,5 +48,16 @@ public class ContaService {
     public void delete(Long id) throws ResourceNotFoundException {
         Conta conta = this.findOne(id);
         this.contaRepository.delete(conta);
+    }
+
+    @Transactional
+    public void debit(Long id, BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
+        if (value.compareTo(BigDecimal.ZERO) == -1) {
+            throw new InvalidValueException();
+        } else if (value.compareTo(BigDecimal.ZERO) == 1) {
+            Conta conta = this.findOne(id);
+            conta.setSaldo(conta.getSaldo().subtract(value));
+            this.save(conta);
+        }
     }
 }

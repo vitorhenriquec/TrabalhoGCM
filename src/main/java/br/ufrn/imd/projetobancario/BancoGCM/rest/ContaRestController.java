@@ -32,6 +32,12 @@ public class ContaRestController {
         return this.contaService.save(conta).getId();
     }
 
+    @PutMapping
+    public void debit(@PathVariable(name = "id") Long idConta, @RequestBody BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
+        this.contaService.debit(idConta, value);
+    }
+
+
     @DeleteMapping(path = "/{id}")
     public void delete(@PathVariable(name = "id") Long idConta) throws ResourceNotFoundException {
         this.contaService.delete(idConta);
