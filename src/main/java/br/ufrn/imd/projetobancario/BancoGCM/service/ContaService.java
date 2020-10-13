@@ -3,6 +3,7 @@ package br.ufrn.imd.projetobancario.BancoGCM.service;
 import br.ufrn.imd.projetobancario.BancoGCM.domain.Conta;
 import br.ufrn.imd.projetobancario.BancoGCM.domain.Pessoa;
 import br.ufrn.imd.projetobancario.BancoGCM.exception.ResourceNotFoundException;
+import br.ufrn.imd.projetobancario.BancoGCM.operations.SaldoOnCommand;
 import br.ufrn.imd.projetobancario.BancoGCM.repository.ContaRepository;
 import br.ufrn.imd.projetobancario.BancoGCM.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -46,5 +48,14 @@ public class ContaService {
     public void delete(Long id) throws ResourceNotFoundException {
         Conta conta = this.findOne(id);
         this.contaRepository.delete(conta);
+    }
+
+    public BigDecimal getSaldo(Long id) throws ResourceNotFoundException {
+        Conta conta = this.findOne(id);
+
+        SaldoOnCommand command = new SaldoOnCommand(conta);
+        command.execute();
+
+        return command.getSaldo();
     }
 }
