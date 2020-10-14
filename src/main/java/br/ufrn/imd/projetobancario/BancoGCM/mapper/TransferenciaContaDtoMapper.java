@@ -4,11 +4,9 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 
+@Getter
 public class TransferenciaContaDtoMapper {
-    @Getter
     public Long idConta;
-    @Getter
     public Long idContaDestino;
-    @Getter
     public BigDecimal valor;
 }
