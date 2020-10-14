@@ -55,10 +55,11 @@ public class ContaService {
 
     /**
      * Debitar um valor de uma conta
-     * @param id - Identificador da conta
+     *
+     * @param id    - Identificador da conta
      * @param value - Valor a ser debitado
      * @throws ResourceNotFoundException - Se a conta não for encontrada
-     * @throws InvalidValueException - Se o valor a ser debitado for menor que 0 ou maior que o saldo
+     * @throws InvalidValueException     - Se o valor a ser debitado for menor que 0 ou maior que o saldo
      */
     @Transactional
     public void debit(Long id, BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
