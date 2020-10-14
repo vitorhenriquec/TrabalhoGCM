@@ -8,6 +8,7 @@ import br.ufrn.imd.projetobancario.BancoGCM.service.ContaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,11 @@ public class ContaRestController {
     @GetMapping(path = "/{id}")
     public ContaDTO findOne(@PathVariable(name = "id") Long idConta) throws ResourceNotFoundException {
         return ContaDTOMapper.map(this.contaService.findOne(idConta));
+    }
+
+    @GetMapping(path = "/{id}/recuperar-saldo")
+    public BigDecimal getSaldo(@PathVariable(name = "id") Long idConta) throws ResourceNotFoundException {
+        return this.contaService.getSaldo(idConta);
     }
 
     @PostMapping
