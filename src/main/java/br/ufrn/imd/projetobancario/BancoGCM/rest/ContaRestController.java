@@ -29,6 +29,11 @@ public class ContaRestController {
         return ContaDTOMapper.map(this.contaService.findOne(idConta));
     }
 
+    @GetMapping(path = "/{id}/recuperar-saldo")
+    public BigDecimal getSaldo(@PathVariable(name = "id") Long idConta) throws ResourceNotFoundException {
+        return this.contaService.getSaldo(idConta);
+    }
+
     @PostMapping
     public Long save(@RequestBody Conta conta) throws ResourceNotFoundException {
         return this.contaService.save(conta).getId();

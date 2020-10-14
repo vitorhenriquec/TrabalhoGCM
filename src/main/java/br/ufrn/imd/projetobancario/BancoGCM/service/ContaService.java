@@ -4,6 +4,8 @@ import br.ufrn.imd.projetobancario.BancoGCM.domain.Conta;
 import br.ufrn.imd.projetobancario.BancoGCM.domain.Pessoa;
 import br.ufrn.imd.projetobancario.BancoGCM.exception.InvalidValueException;
 import br.ufrn.imd.projetobancario.BancoGCM.exception.ResourceNotFoundException;
+import br.ufrn.imd.projetobancario.BancoGCM.operations.CreditoOnCommand;
+import br.ufrn.imd.projetobancario.BancoGCM.operations.SaldoOnCommand;
 import br.ufrn.imd.projetobancario.BancoGCM.repository.ContaRepository;
 import br.ufrn.imd.projetobancario.BancoGCM.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
@@ -56,8 +58,21 @@ public class ContaService {
             throw new InvalidValueException();
         } else if (value.compareTo(BigDecimal.ZERO) == 1) {
             Conta conta = this.findOne(id);
-            conta.setSaldo(conta.getSaldo().add(value));
+
+            CreditoOnCommand command = new CreditoOnCommand(conta, value);
+            command.execute();
+            conta.setSaldo(command.getValor());
             this.save(conta);
         }
+    }
+
+    public BigDecimal getSaldo(Long id) throws ResourceNotFoundException {
+        Conta conta = this.findOne(id);
+
+        SaldoOnCommand command = new SaldoOnCommand(conta);
+        command.execute();
+
+        return command.getSaldo();
+
     }
 }
