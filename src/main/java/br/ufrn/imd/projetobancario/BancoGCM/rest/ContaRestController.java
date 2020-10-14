@@ -2,12 +2,14 @@ package br.ufrn.imd.projetobancario.BancoGCM.rest;
 
 import br.ufrn.imd.projetobancario.BancoGCM.domain.Conta;
 import br.ufrn.imd.projetobancario.BancoGCM.dto.ContaDTO;
+import br.ufrn.imd.projetobancario.BancoGCM.exception.InvalidValueException;
 import br.ufrn.imd.projetobancario.BancoGCM.exception.ResourceNotFoundException;
 import br.ufrn.imd.projetobancario.BancoGCM.mapper.ContaDTOMapper;
 import br.ufrn.imd.projetobancario.BancoGCM.service.ContaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,11 @@ public class ContaRestController {
         return ContaDTOMapper.map(this.contaService.findOne(idConta));
     }
 
+    @GetMapping(path = "/{id}/recuperar-saldo")
+    public BigDecimal getSaldo(@PathVariable(name = "id") Long idConta) throws ResourceNotFoundException {
+        return this.contaService.getSaldo(idConta);
+    }
+
     @PostMapping
     public Long save(@RequestBody Conta conta) throws ResourceNotFoundException {
         return this.contaService.save(conta).getId();
@@ -35,6 +42,11 @@ public class ContaRestController {
     @PutMapping
     public void debit(@PathVariable(name = "id") Long idConta, @RequestBody BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
         this.contaService.debit(idConta, value);
+    }
+
+    @PutMapping
+    public void credit(@PathVariable(name = "id") Long idConta, @RequestBody BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
+        this.contaService.credit(idConta, value);
     }
 
 
