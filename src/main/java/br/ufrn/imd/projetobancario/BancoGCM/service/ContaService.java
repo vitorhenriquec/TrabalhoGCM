@@ -98,4 +98,10 @@ public class ContaService {
         return command.getSaldo();
 
     }
+
+    @Transactional
+    public void transfer(Long idConta, Long idContaDestino, BigDecimal valor) throws ResourceNotFoundException, InvalidValueException {
+        this.debit(idConta, valor);
+        this.credit(idContaDestino, valor);
+    }
 }
