@@ -61,7 +61,6 @@ public class ContaService {
             Conta conta = this.findOne(id);
             DebitoOnCommand command = new DebitoOnCommand(conta, value);
             command.execute();
-            conta.setSaldo(command.getValor());
             this.save(conta);
         }
     }
@@ -74,7 +73,6 @@ public class ContaService {
             Conta conta = this.findOne(id);
             CreditoOnCommand command = new CreditoOnCommand(conta, value);
             command.execute();
-            conta.setSaldo(command.getValor());
             this.save(conta);
         }
     }
