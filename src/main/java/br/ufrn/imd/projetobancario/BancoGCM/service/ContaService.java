@@ -7,6 +7,7 @@ import br.ufrn.imd.projetobancario.BancoGCM.exception.ResourceNotFoundException;
 import br.ufrn.imd.projetobancario.BancoGCM.operations.CreditoOnCommand;
 import br.ufrn.imd.projetobancario.BancoGCM.operations.DebitoOnCommand;
 import br.ufrn.imd.projetobancario.BancoGCM.operations.SaldoOnCommand;
+import br.ufrn.imd.projetobancario.BancoGCM.operations.TransferenciaOnCommand;
 import br.ufrn.imd.projetobancario.BancoGCM.repository.ContaRepository;
 import br.ufrn.imd.projetobancario.BancoGCM.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
@@ -63,30 +64,18 @@ public class ContaService {
      */
     @Transactional
     public void debit(Long id, BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
-        if (value.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InvalidValueException();
-        } else if (value.compareTo(BigDecimal.ZERO) > 0) {
-            Conta conta = this.findOne(id);
-            // Se o valor a ser debitado for maior que o saldo
-            if (this.getSaldo(id).compareTo(value) < 0) {
-                throw new InvalidValueException();
-            }
-            DebitoOnCommand command = new DebitoOnCommand(conta, value);
-            command.execute();
-            this.save(conta);
-        }
+        Conta conta = this.findOne(id);
+        DebitoOnCommand command = new DebitoOnCommand(conta, value);
+        command.execute();
+        this.save(conta);
     }
 
     @Transactional
     public void credit(Long id, BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
-        if (value.compareTo(BigDecimal.ZERO) == -1) {
-            throw new InvalidValueException();
-        } else if (value.compareTo(BigDecimal.ZERO) == 1) {
-            Conta conta = this.findOne(id);
-            CreditoOnCommand command = new CreditoOnCommand(conta, value);
-            command.execute();
-            this.save(conta);
-        }
+        Conta conta = this.findOne(id);
+        CreditoOnCommand command = new CreditoOnCommand(conta, value);
+        command.execute();
+        this.save(conta);
     }
 
     public BigDecimal getSaldo(Long id) throws ResourceNotFoundException {
@@ -97,5 +86,15 @@ public class ContaService {
 
         return command.getSaldo();
 
+    }
+
+    @Transactional
+    public void transfer(Long idConta, Long idContaDestino, BigDecimal valor) throws ResourceNotFoundException, InvalidValueException {
+        Conta conta = this.findOne(idConta);
+        Conta contaDestino = this.findOne(idContaDestino);
+        TransferenciaOnCommand transferenciaOnCommand = new TransferenciaOnCommand(conta, contaDestino, valor);
+        transferenciaOnCommand.execute();
+        this.save(conta);
+        this.save(contaDestino);
     }
 }

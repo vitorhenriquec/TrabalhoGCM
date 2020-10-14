@@ -1,6 +1,7 @@
 package br.ufrn.imd.projetobancario.BancoGCM.operations;
 
 import br.ufrn.imd.projetobancario.BancoGCM.domain.Conta;
+import br.ufrn.imd.projetobancario.BancoGCM.exception.InvalidValueException;
 
 import java.math.BigDecimal;
 
@@ -14,7 +15,11 @@ public class CreditoOnCommand implements Command{
     }
 
     @Override
-    public void execute() {
-        this.conta.setSaldo(this.conta.getSaldo().add(this.valor));
+    public void execute() throws  InvalidValueException{
+        if (valor.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidValueException();
+        } else if (valor.compareTo(BigDecimal.ZERO) > 0) {
+            this.conta.setSaldo(this.conta.getSaldo().add(this.valor));
+        }
     }
 }
