@@ -39,13 +39,13 @@ public class ContaRestController {
         return this.contaService.save(conta).getId();
     }
 
-    @PutMapping
-    public void debit(@PathVariable(name = "id") Long idConta, @RequestBody BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
+    @PutMapping(path = "/{id}/debitar")
+    public void debit(@PathVariable(name = "id") Long idConta, @RequestParam(name = "valor") BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
         this.contaService.debit(idConta, value);
     }
 
-    @PutMapping
-    public void credit(@PathVariable(name = "id") Long idConta, @RequestBody BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
+    @PutMapping(path = "/{id}/creditar")
+    public void credit(@PathVariable(name = "id") Long idConta, @RequestParam(name = "valor") BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
         this.contaService.credit(idConta, value);
     }
 
