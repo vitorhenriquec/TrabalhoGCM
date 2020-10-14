@@ -53,12 +53,24 @@ public class ContaService {
         this.contaRepository.delete(conta);
     }
 
+    /**
+     * Debitar um valor de uma conta
+     *
+     * @param id    - Identificador da conta
+     * @param value - Valor a ser debitado
+     * @throws ResourceNotFoundException - Se a conta não for encontrada
+     * @throws InvalidValueException     - Se o valor a ser debitado for menor que 0 ou maior que o saldo
+     */
     @Transactional
     public void debit(Long id, BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
-        if (value.compareTo(BigDecimal.ZERO) == -1) {
+        if (value.compareTo(BigDecimal.ZERO) < 0) {
             throw new InvalidValueException();
-        } else if (value.compareTo(BigDecimal.ZERO) == 1) {
+        } else if (value.compareTo(BigDecimal.ZERO) > 0) {
             Conta conta = this.findOne(id);
+            // Se o valor a ser debitado for maior que o saldo
+            if (this.getSaldo(id).compareTo(value) < 0) {
+                throw new InvalidValueException();
+            }
             DebitoOnCommand command = new DebitoOnCommand(conta, value);
             command.execute();
             this.save(conta);
