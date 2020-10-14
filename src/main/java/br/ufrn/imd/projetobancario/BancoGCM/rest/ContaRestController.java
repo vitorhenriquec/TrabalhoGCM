@@ -40,6 +40,11 @@ public class ContaRestController {
     }
 
     @PutMapping
+    public void debit(@PathVariable(name = "id") Long idConta, @RequestBody BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
+        this.contaService.debit(idConta, value);
+    }
+
+    @PutMapping
     public void credit(@PathVariable(name = "id") Long idConta, @RequestBody BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
         this.contaService.credit(idConta, value);
     }
