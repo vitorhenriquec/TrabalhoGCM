@@ -2,10 +2,10 @@ package br.ufrn.imd.projetobancario.BancoGCM.rest;
 
 import br.ufrn.imd.projetobancario.BancoGCM.domain.Conta;
 import br.ufrn.imd.projetobancario.BancoGCM.dto.ContaDTO;
+import br.ufrn.imd.projetobancario.BancoGCM.dto.TransferenciaContaDto;
 import br.ufrn.imd.projetobancario.BancoGCM.exception.InvalidValueException;
 import br.ufrn.imd.projetobancario.BancoGCM.exception.ResourceNotFoundException;
 import br.ufrn.imd.projetobancario.BancoGCM.mapper.ContaDTOMapper;
-import br.ufrn.imd.projetobancario.BancoGCM.mapper.TransferenciaContaDtoMapper;
 import br.ufrn.imd.projetobancario.BancoGCM.service.ContaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +51,7 @@ public class ContaRestController {
     }
 
     @PostMapping(path = "/transferir")
-    public void transfer(@RequestBody TransferenciaContaDtoMapper transferenciaConta) throws ResourceNotFoundException, InvalidValueException {
+    public void transfer(@RequestBody TransferenciaContaDto transferenciaConta) throws ResourceNotFoundException, InvalidValueException {
         this.contaService.transfer(transferenciaConta.getIdConta(), transferenciaConta.getIdContaDestino(), transferenciaConta.getValor());
     }
 
