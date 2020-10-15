@@ -5,7 +5,7 @@ import br.ufrn.imd.projetobancario.BancoGCM.exception.InvalidValueException;
 
 import java.math.BigDecimal;
 
-public class DebitoOnCommand implements Command{
+public class DebitoOnCommand implements Command {
     private final Conta conta;
     private BigDecimal valor;
 
@@ -19,7 +19,8 @@ public class DebitoOnCommand implements Command{
         if (valor.compareTo(BigDecimal.ZERO) < 0) {
             throw new InvalidValueException();
         } else if (valor.compareTo(BigDecimal.ZERO) > 0) {
-            SaldoOnCommand  saldoOnCommand = new SaldoOnCommand(conta);
+            SaldoOnCommand saldoOnCommand = new SaldoOnCommand(conta);
+            saldoOnCommand.execute();
             // Se o valor a ser debitado for maior que o saldo
             if (saldoOnCommand.getSaldo().compareTo(valor) < 0) {
                 throw new InvalidValueException();
