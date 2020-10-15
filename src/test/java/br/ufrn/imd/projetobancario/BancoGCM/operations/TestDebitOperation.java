@@ -66,7 +66,7 @@ public class TestDebitOperation {
         BigDecimal valor = new BigDecimal(800);
         this.contaService.debit(this.conta.getId(), valor);
         this.conta = this.contaService.findOne(this.conta.getId());
-        Assertions.assertEquals(this.conta.getSaldo(), new BigDecimal(7200));
+        Assertions.assertEquals(new BigDecimal(7200).doubleValue(),this.conta.getSaldo().doubleValue());
     }
 
     /**
