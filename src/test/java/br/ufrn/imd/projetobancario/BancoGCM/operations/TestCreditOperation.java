@@ -81,4 +81,15 @@ class TestCreditOperation {
             this.contaService.credit( 55L, valor);
         });
     }
+
+    /**
+     * Teste de debitar um valor negativo
+     */
+    @Test
+    public void creditandoValorNegativo() {
+        Assertions.assertThrows(InvalidValueException.class, () -> {
+            BigDecimal valor = new BigDecimal(-800);
+            this.contaService.credit(this.conta.getId(), valor);
+        });
+    }
 }
