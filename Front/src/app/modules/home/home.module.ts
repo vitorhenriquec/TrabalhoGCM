@@ -8,10 +8,10 @@ const routes: Routes = [{
   path: "",
   component: HomeComponent,
   children: [
-    /*{
+    {
       path: "pessoa",
       loadChildren: () => import("./pessoa/pessoa.module").then(m => m.PessoaModule)
-    }*/
+    }
   ]
 }];
 
