@@ -2,19 +2,18 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
 import { AppComponent } from "./app.component";
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NZ_I18N } from "ng-zorro-antd/i18n";
-import { pt_BR } from "ng-zorro-antd/i18n";
+import { NZ_I18N, pt_BR } from "ng-zorro-antd/i18n";
 import { registerLocaleData } from "@angular/common";
 import pt from "@angular/common/locales/pt";
-import {RouterModule} from "@angular/router";
-import {AppRoutingModule} from "./app-routing.module";
-import {CORE_API_URL} from "./core/core.constants";
-import {environment} from '../environments/environment';
-import {CoreModule} from './core/core.module';
-import {NzMessageModule} from 'ng-zorro-antd';
+import { RouterModule } from "@angular/router";
+import { AppRoutingModule } from "./app-routing.module";
+import { CORE_API_URL } from "./core/core.constants";
+import { environment } from "../environments/environment";
+import { CoreModule } from "./core/core.module";
+import { NzIconModule, NzMessageModule } from "ng-zorro-antd";
 
 registerLocaleData(pt);
 
@@ -30,6 +29,7 @@ registerLocaleData(pt);
     BrowserAnimationsModule,
     RouterModule,
     NzMessageModule,
+    NzIconModule,
     ReactiveFormsModule,
     CoreModule.forRoot()
   ],
