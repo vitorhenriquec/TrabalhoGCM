@@ -2,9 +2,24 @@ import { RouterModule, Routes } from "@angular/router";
 import { ContaComponent } from "./conta.component";
 import { NgModule } from "@angular/core";
 import { ContaService } from "../../../core/services/conta.service";
-import { NzButtonModule, NzGridModule, NzPopconfirmModule, NzTableModule } from "ng-zorro-antd";
+import {
+  NzButtonModule,
+  NzDrawerModule,
+  NzFormModule,
+  NzGridModule,
+  NzIconModule,
+  NzInputModule,
+  NzPopconfirmModule,
+  NzSelectModule,
+  NzSpinModule,
+  NzTableModule,
+  NzToolTipModule
+} from "ng-zorro-antd";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../../shared/shared.module";
+import { ContaFormComponent } from "./conta-form/conta-form.component";
+import { ReactiveFormsModule } from "@angular/forms";
+import { PessoaService } from "../../../core/services/pessoa.service";
 
 const routes: Routes = [
   {
@@ -16,7 +31,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    ContaComponent
+    ContaComponent,
+    ContaFormComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -25,12 +41,22 @@ const routes: Routes = [
     NzTableModule,
     NzPopconfirmModule,
     CommonModule,
-    SharedModule
+    SharedModule,
+    NzDrawerModule,
+    NzSpinModule,
+    NzFormModule,
+    NzInputModule,
+    ReactiveFormsModule,
+    NzSelectModule,
+    NzIconModule,
+    NzToolTipModule
   ],
   providers: [
-    ContaService
+    ContaService,
+    PessoaService
   ]
 })
 export class ContaModule {
-  constructor() {}
+  constructor() {
+  }
 }

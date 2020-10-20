@@ -46,7 +46,7 @@ export class ContaComponent extends ListComponent<Conta> implements OnInit {
 
   deletar(id: number) {
     if (!!id) {
-      this.contaService.delete(id).pipe(tap( _ => {
+      this.contaService.delete(id).pipe(tap(_ => {
         this.message.success("Conta deletada com sucesso");
         this.buscarContas();
       }, err => {
