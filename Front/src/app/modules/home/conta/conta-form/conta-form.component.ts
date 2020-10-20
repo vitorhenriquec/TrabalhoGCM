@@ -61,6 +61,7 @@ export class ContaFormComponent extends FormComponent<Conta> implements OnInit {
     this.formulario = this.fb.group({
       id: [null],
       tipoConta: [null, Validators.required],
+      saldo: [0],
       pessoa: [null, Validators.required]
     });
 
