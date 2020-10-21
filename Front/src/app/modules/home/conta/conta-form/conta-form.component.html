@@ -3,54 +3,32 @@
   [nzVisible]="visivel"
   [nzWidth]="'40%'"
   (nzOnClose)="close()">
-  <nz-tabset>
-    <nz-tab nzTitle="Informações">
-      <nz-spin [nzSpinning]="salvando">
-        <form nz-form nzLayout="horizontal" nzNoColon [formGroup]="formulario" (ngSubmit)="salvar()">
-          <nz-form-item>
-            <nz-form-label nzSpan="6" nzFor="tipoConta" nzRequired>Tipo da Conta</nz-form-label>
-            <nz-form-control nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
-              <nz-select formControlName="tipoConta" required>
-                <nz-option *ngFor="let tipo of tiposContas" [nzValue]="tipo.id" [nzLabel]="tipo.text"></nz-option>
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-label nzSpan="6" nzFor="pessoa" nzRequired>Dono da Conta</nz-form-label>
-            <nz-form-control nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
-              <nz-select formControlName="pessoa" required>
-                <nz-option *ngFor="let pessoa of pessoas" [nzValue]="pessoa" [nzLabel]="pessoa.nome"></nz-option>
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-          <div nz-row nzJustify="end">
-            <nz-button-group>
-              <button nz-button nzType="default" type="button" (click)="close()">Fechar</button>
-              <button nz-button nzType="primary" type="submit" [disabled]="formulario.invalid">Salvar</button>
-            </nz-button-group>
-          </div>
-        </form>
-      </nz-spin>
-    </nz-tab>
-    <nz-tab nzTitle="Tranferência">
-      <nz-spin [nzSpinning]="salvando">
-        <form nz-form nzLayout="horizontal" nzNoColon [formGroup]="formularioTransferencia" (ngSubmit)="transferir()">
-          <nz-form-item>
-            <nz-form-label nzSpan="6" nzFor="numeroConta" nzRequired>Número</nz-form-label>
-            <nz-form-control formControlName="numerConta" nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
-              <input nz-input placeholder="Digite o número da conta"/>
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-label nzSpan="6" nzFor="valor" nzRequired>Valor</nz-form-label>
-            <nz-form-control formControlName="valor" nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
-              <input nz-input placeholder="Valor a ser transferido"/>
-            </nz-form-control>
-          </nz-form-item>
-        </form>
-      </nz-spin>
-    </nz-tab>
-  </nz-tabset>
+  <nz-spin [nzSpinning]="salvando">
+    <form nz-form nzLayout="horizontal" nzNoColon [formGroup]="formulario" (ngSubmit)="salvar()">
+      <nz-form-item>
+        <nz-form-label nzSpan="6" nzFor="tipoConta" nzRequired>Tipo da Conta</nz-form-label>
+        <nz-form-control nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
+          <nz-select formControlName="tipoConta" required>
+            <nz-option *ngFor="let tipo of tiposContas" [nzValue]="tipo.id" [nzLabel]="tipo.text"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzSpan="6" nzFor="pessoa" nzRequired>Dono da Conta</nz-form-label>
+        <nz-form-control nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
+          <nz-select formControlName="pessoa" required>
+            <nz-option *ngFor="let pessoa of pessoas" [nzValue]="pessoa" [nzLabel]="pessoa.nome"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-row nzJustify="end">
+        <nz-button-group>
+          <button nz-button nzType="default" type="button" (click)="close()">Fechar</button>
+          <button nz-button nzType="primary" type="submit" [disabled]="formulario.invalid">Salvar</button>
+        </nz-button-group>
+      </div>
+    </form>
+  </nz-spin>
 </nz-drawer>
 
 <ng-template #campoRequiredErrorTpl let-control>

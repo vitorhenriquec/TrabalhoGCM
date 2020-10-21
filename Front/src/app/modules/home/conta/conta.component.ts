@@ -1,10 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import { ListComponent } from "../../../core/components/list.component";
 import { Conta } from "../../../core/models/conta.model";
 import { ContaService } from "../../../core/services/conta.service";
 import { FormBuilder } from "@angular/forms";
 import { NzMessageService } from "ng-zorro-antd";
 import { tap } from "rxjs/operators";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Component({
   selector: "app-conta",
@@ -20,6 +21,8 @@ export class ContaComponent extends ListComponent<Conta> implements OnInit {
   ) {
     super();
   }
+
+  public abrirTransferenciaForm$ = new BehaviorSubject<Conta>(null);
 
   ngOnInit() {
     this.buscarContas();
@@ -54,5 +57,9 @@ export class ContaComponent extends ListComponent<Conta> implements OnInit {
         this.message.error("Erro ao deletar conta");
       })).subscribe();
     }
+  }
+
+  abrirTransferenciaForm(t: Conta) {
+    this.abrirTransferenciaForm$.next(t);
   }
 }

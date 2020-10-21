@@ -21,6 +21,10 @@ import { SharedModule } from "../../../shared/shared.module";
 import { ContaFormComponent } from "./conta-form/conta-form.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { PessoaService } from "../../../core/services/pessoa.service";
+import {TransferenciaFormComponent} from "./transferencia-form/transferencia-form.component";
+import {TipoContaPipe} from "../../../shared/pipes/tipo-conta.pipe";
+import {NgxCurrencyModule} from "ngx-currency";
+
 
 const routes: Routes = [
   {
@@ -33,7 +37,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     ContaComponent,
-    ContaFormComponent
+    ContaFormComponent,
+    TransferenciaFormComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -51,11 +56,13 @@ const routes: Routes = [
     NzSelectModule,
     NzIconModule,
     NzToolTipModule,
-    NgZorroAntdModule
+    NgZorroAntdModule,
+    NgxCurrencyModule,
   ],
   providers: [
     ContaService,
-    PessoaService
+    PessoaService,
+    TipoContaPipe,
   ]
 })
 export class ContaModule {

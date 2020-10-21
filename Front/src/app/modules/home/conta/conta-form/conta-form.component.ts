@@ -101,27 +101,4 @@ export class ContaFormComponent extends FormComponent<Conta> implements OnInit {
     this.initializeForm();
     super.close();
   }
-
-  transferir(){
-    const conta = super.construirObjeto();
-    if (!conta) {
-      return;
-    }
-
-    const transferencia = {
-      idConta: conta.id,
-      idContaDestino: 2,
-      valor: 20
-    };
-
-    this.contaService.transfer(transferencia).pipe(tap(next => {
-      this.message.success("Transferência feita com sucesso");
-      this.close();
-    }, error => {
-      console.log(error);
-      this.message.error("Erro ao fazer a transferência");
-      this.salvando = false;
-    }));
-
-  }
 }

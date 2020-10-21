@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Conta } from "../models/conta.model";
-import {Transferencia} from "../models/transferencia.models";
 
 @Injectable()
 export class ContaService {
@@ -28,7 +27,7 @@ export class ContaService {
     return this.http.post<number>(this.url, conta);
   }
 
-  transfer(transferencia: Transferencia): Observable<void> {
+  transfer(transferencia): Observable<void> {
     return this.http.post<void>(`${this.url}/transferir`, transferencia);
   }
 }
