@@ -26,4 +26,8 @@ export class ContaService {
   save(conta: Conta): Observable<number> {
     return this.http.post<number>(this.url, conta);
   }
+
+  transfer(transferencia): Observable<void> {
+    return this.http.post<void>(`${this.url}/transferir`, transferencia);
+  }
 }

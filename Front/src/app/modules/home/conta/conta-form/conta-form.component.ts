@@ -8,6 +8,7 @@ import { tiposConta } from "../../../../shared/pipes/tipo-conta.pipe";
 import { Pessoa } from "../../../../core/models/pessoa.model";
 import { PessoaService } from "../../../../core/services/pessoa.service";
 import { tap } from "rxjs/operators";
+import {Transferencia} from "../../../../core/models/transferencia.models";
 
 @Component({
   selector: "app-conta-form",
