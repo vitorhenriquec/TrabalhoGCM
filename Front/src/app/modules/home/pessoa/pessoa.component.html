@@ -1,0 +1,31 @@
+<div nz-row nzType="flex" nzJustify="center">
+  <div nz-col nzLg="8" nzMd="8" nzXs="24">
+    <button nz-button nzType="primary" (click)="abrirForm()">Nova Pessoa</button>
+  </div>
+</div>
+<nz-table #pessoasTable [nzData]="dados">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Data de Nascimento</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let pessoa of pessoasTable.data">
+      <td>{{pessoa.nome}}</td>
+      <td>{{pessoa.dataNascimento | date: "dd/MM/yyyy"}}</td>
+      <td>
+        <nz-button-group>
+          <button nz-button nzType="primary" (click)="abrirForm(pessoa)">Editar</button>
+          <button nz-button nzType="danger" nz-popconfirm="Deseja realmente deletar?" (nzOnConfirm)="deletar(pessoa.id)">Deletar</button>
+        </nz-button-group>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<app-pessoa-form
+  [abrirForm]="abrirForm$.asObservable()"
+  (emitEvent)="buscarPessoas()"
+></app-pessoa-form>
