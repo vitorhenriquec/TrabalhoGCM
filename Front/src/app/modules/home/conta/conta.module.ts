@@ -3,6 +3,7 @@ import { ContaComponent } from "./conta.component";
 import { NgModule } from "@angular/core";
 import { ContaService } from "../../../core/services/conta.service";
 import {
+  NgZorroAntdModule,
   NzButtonModule,
   NzDrawerModule,
   NzFormModule,
@@ -49,7 +50,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     NzSelectModule,
     NzIconModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NgZorroAntdModule
   ],
   providers: [
     ContaService,

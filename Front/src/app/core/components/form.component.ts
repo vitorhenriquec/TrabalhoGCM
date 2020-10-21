@@ -6,6 +6,7 @@ import {NzMessageService} from "ng-zorro-antd";
 export abstract class FormComponent<T> {
   // Formulário
   public formulario: FormGroup;
+  public formularioTransferencia: FormGroup;
 
   // Booleans
   public visivel = false;
