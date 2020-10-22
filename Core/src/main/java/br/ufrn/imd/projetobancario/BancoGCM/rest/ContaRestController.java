@@ -41,9 +41,9 @@ public class ContaRestController {
         return this.contaService.save(conta).getId();
     }
 
-    @PutMapping(path = "/{id}/debitar")
-    public void debit(@PathVariable(name = "id") Long idConta, @RequestParam(name = "valor") BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
-        this.contaService.debit(idConta, value);
+    @PostMapping(path = "/{id}/debitar")
+    public void debit(@PathVariable(name = "id") Long idConta, @RequestBody ValueDto value) throws ResourceNotFoundException, InvalidValueException {
+        this.contaService.debit(idConta, value.valor);
     }
 
     @PostMapping(path = "/{id}/creditar")
