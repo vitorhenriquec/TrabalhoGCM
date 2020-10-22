@@ -19,6 +19,7 @@
     <td>{{conta.saldo | currency: "BRL"}}</td>
     <td>
       <nz-button-group>
+        <button nz-button nzType="default" (click)="abrirCreditoForm(conta)" nz-tooltip="Crédito"><i nz-icon nzType="edit"></i></button>
         <button nz-button nzType="default" (click)="abrirTransferenciaForm(conta)" nz-tooltip="Transferência"><i nz-icon nzType="edit"></i></button>
         <button nz-button nzType="primary" (click)="abrirForm(conta)" nz-tooltip="Editar"><i nz-icon nzType="edit"></i></button>
         <button nz-button nzType="danger" nz-popconfirm="Deseja realmente deletar?" (nzOnConfirm)="deletar(conta.id)"><i nz-icon nzType="close"></i></button>
@@ -37,3 +38,8 @@
   [abrirForm]="abrirTransferenciaForm$.asObservable()"
   (emitEvent)="buscarContas()">
 </app-transferencia-form>
+
+<app-credito-form
+  [abrirForm]="abrirCreditoForm$.asObservable()"
+  (emitEvent)="buscarContas()">
+</app-credito-form>
