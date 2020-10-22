@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  coreApiUrl: "http://banco-gcm-core.com.br",
+  coreApiUrl: "https://banco-gcm-core.com.br",
   production: false
 };
 
