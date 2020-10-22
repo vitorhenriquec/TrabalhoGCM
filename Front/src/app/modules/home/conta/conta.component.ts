@@ -24,6 +24,8 @@ export class ContaComponent extends ListComponent<Conta> implements OnInit {
 
   public abrirTransferenciaForm$ = new BehaviorSubject<Conta>(null);
 
+  public abrirCreditoForm$ = new BehaviorSubject<Conta>(null);
+
   ngOnInit() {
     this.buscarContas();
   }
@@ -61,5 +63,9 @@ export class ContaComponent extends ListComponent<Conta> implements OnInit {
 
   abrirTransferenciaForm(t: Conta) {
     this.abrirTransferenciaForm$.next(t);
+  }
+
+  abrirCreditoForm(t: Conta){
+    this.abrirCreditoForm$.next(t);
   }
 }

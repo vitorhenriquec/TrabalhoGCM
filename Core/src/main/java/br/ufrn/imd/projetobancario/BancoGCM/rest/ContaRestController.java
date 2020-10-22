@@ -3,6 +3,7 @@ package br.ufrn.imd.projetobancario.BancoGCM.rest;
 import br.ufrn.imd.projetobancario.BancoGCM.domain.Conta;
 import br.ufrn.imd.projetobancario.BancoGCM.dto.ContaDTO;
 import br.ufrn.imd.projetobancario.BancoGCM.dto.TransferenciaContaDto;
+import br.ufrn.imd.projetobancario.BancoGCM.dto.ValueDto;
 import br.ufrn.imd.projetobancario.BancoGCM.exception.InvalidValueException;
 import br.ufrn.imd.projetobancario.BancoGCM.exception.ResourceNotFoundException;
 import br.ufrn.imd.projetobancario.BancoGCM.mapper.ContaDTOMapper;
@@ -45,16 +46,15 @@ public class ContaRestController {
         this.contaService.debit(idConta, value);
     }
 
-    @PutMapping(path = "/{id}/creditar")
-    public void credit(@PathVariable(name = "id") Long idConta, @RequestParam(name = "valor") BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
-        this.contaService.credit(idConta, value);
+    @PostMapping(path = "/{id}/creditar")
+    public void credit(@PathVariable(name = "id") Long idConta, @RequestBody ValueDto value) throws ResourceNotFoundException, InvalidValueException {
+        this.contaService.credit(idConta, value.valor);
     }
 
     @PostMapping(path = "/transferir")
     public void transfer(@RequestBody TransferenciaContaDto transferenciaConta) throws ResourceNotFoundException, InvalidValueException {
         this.contaService.transfer(transferenciaConta.getIdConta(), transferenciaConta.getIdContaDestino(), transferenciaConta.getValor());
     }
-
 
     @DeleteMapping(path = "/{id}")
     public void delete(@PathVariable(name = "id") Long idConta) throws ResourceNotFoundException {
