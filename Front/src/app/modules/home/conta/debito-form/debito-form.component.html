@@ -1,0 +1,36 @@
+<nz-drawer
+  nzTitle="Débito"
+  [nzVisible]="visivel"
+  [nzWidth]="'40%'"
+  (nzOnClose)="close()">
+  <nz-spin [nzSpinning]="salvando">
+    <form nz-form nzLayout="horizontal" nzNoColon [formGroup]="formulario" (ngSubmit)="debitar()">
+      <nz-form-item>
+        <nz-form-label nzSpan="6" nzFor="valor" nzRequired>Valor</nz-form-label>
+        <nz-form-control nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
+          <input
+            nz-input
+            id="valor"
+            name="valor"
+            formControlName="valor"
+            placeholder="Valor para debitar"
+            currencyMask
+            [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: false}"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-row nzJustify="end">
+        <nz-button-group>
+          <button nz-button nzType="default" type="button" (click)="close()">Fechar</button>
+          <button nz-button nzType="primary" type="submit">Debitar</button>
+        </nz-button-group>
+      </div>
+    </form>
+  </nz-spin>
+</nz-drawer>
+
+<ng-template #campoRequiredErrorTpl let-control>
+  <small *ngIf="control.hasError('required')">
+    Campo requerido
+  </small>
+</ng-template>

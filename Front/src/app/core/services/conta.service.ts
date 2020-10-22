@@ -34,4 +34,8 @@ export class ContaService {
   credit(id:number, valor): Observable<void> {
     return this.http.post<void>(`${this.url}/${id}/creditar`,valor);
   }
+
+  debit(id:number, valor): Observable<void> {
+    return this.http.post<void>(`${this.url}/${id}/debitar`,valor);
+  }
 }
