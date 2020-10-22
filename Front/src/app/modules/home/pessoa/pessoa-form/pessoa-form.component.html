@@ -1,0 +1,33 @@
+<nz-drawer
+  nzTitle="Pessoa"
+  [nzVisible]="visivel"
+  [nzWidth]="'60%'"
+  (nzOnClose)="close()">
+  <nz-spin [nzSpinning]="salvando">
+    <form nz-form nzLayout="horizontal" nzNoColon [formGroup]="formulario" (ngSubmit)="salvar()">
+      <nz-form-item>
+        <nz-form-label nzSpan="6" nzFor="nome" nzRequired>Nome</nz-form-label>
+        <nz-form-control nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
+          <input nz-input formControlName="nome" placeholder="Nome da Pessoa"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzSpan="6" nzFor="dataNascimento" nzRequired>Data de Nascimento</nz-form-label>
+        <nz-form-control nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
+          <nz-date-picker formControlName="dataNascimento" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-row nzJustify="end">
+        <nz-button-group>
+          <button nz-button nzType="primary" type="submit">Salvar</button>
+        </nz-button-group>
+      </div>
+    </form>
+  </nz-spin>
+</nz-drawer>
+
+<ng-template #campoRequiredErrorTpl let-control>
+  <small *ngIf="control.hasError('required')">
+    Campo requerido
+  </small>
+</ng-template>
