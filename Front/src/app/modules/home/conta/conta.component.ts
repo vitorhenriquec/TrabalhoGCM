@@ -26,6 +26,8 @@ export class ContaComponent extends ListComponent<Conta> implements OnInit {
 
   public abrirCreditoForm$ = new BehaviorSubject<Conta>(null);
 
+  public abrirDebitoForm$ = new BehaviorSubject<Conta>(null);
+
   ngOnInit() {
     this.buscarContas();
   }
@@ -67,5 +69,9 @@ export class ContaComponent extends ListComponent<Conta> implements OnInit {
 
   abrirCreditoForm(t: Conta){
     this.abrirCreditoForm$.next(t);
+  }
+
+  abrirDebitoForm(t: Conta){
+    this.abrirDebitoForm$.next(t);
   }
 }
