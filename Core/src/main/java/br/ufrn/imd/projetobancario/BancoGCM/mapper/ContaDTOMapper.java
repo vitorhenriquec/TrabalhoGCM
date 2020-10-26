@@ -10,6 +10,7 @@ public class ContaDTOMapper {
         contaDTO.setId(conta.getId());
         contaDTO.setTipoConta(conta.getTipoConta());
         contaDTO.setSaldo(conta.getSaldo());
+        contaDTO.setSaldoBonus(conta.getSaldoBonus());
         contaDTO.setPessoa(PessoaDTOMapper.map(conta.getPessoa()));
 
         return contaDTO;

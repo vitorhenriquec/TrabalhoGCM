@@ -74,6 +74,7 @@ public class ContaService {
     public void credit(Long id, BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
         Conta conta = this.findOne(id);
         CreditoOnCommand command = new CreditoOnCommand(conta, value);
+        conta.setSaldoBonus(conta.getSaldo().add(conta.getSaldo().divide(BigDecimal.valueOf(100))));
         command.execute();
         this.save(conta);
     }

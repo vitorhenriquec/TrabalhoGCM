@@ -28,6 +28,9 @@ public class Conta {
     @Column(name = "saldo")
     private BigDecimal saldo = BigDecimal.ZERO;
 
+    @Column(name="saldoBonus")
+    private BigDecimal saldoBonus = BigDecimal.ZERO;
+
     @Column(name = "data_criacao")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
