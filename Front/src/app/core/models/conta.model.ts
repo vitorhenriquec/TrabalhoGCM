@@ -4,5 +4,6 @@ export interface Conta {
   id?: number;
   tipoConta?: string;
   saldo?: number;
+  saldoBonus?: number;
   pessoa?: Pessoa;
 }
