@@ -24,7 +24,7 @@ export class ContaComponent extends ListComponent<Conta> implements OnInit {
 
   public abrirTransferenciaForm$ = new BehaviorSubject<Conta>(null);
 
-  public abrirCreditoForm$ = new BehaviorSubject<Conta>(null);
+  public abrirDepositoForm$ = new BehaviorSubject<Conta>(null);
 
   public abrirDebitoForm$ = new BehaviorSubject<Conta>(null);
 
@@ -67,8 +67,8 @@ export class ContaComponent extends ListComponent<Conta> implements OnInit {
     this.abrirTransferenciaForm$.next(t);
   }
 
-  abrirCreditoForm(t: Conta){
-    this.abrirCreditoForm$.next(t);
+  abrirDepositoForm(t: Conta) {
+    this.abrirDepositoForm$.next(t);
   }
 
   abrirDebitoForm(t: Conta){

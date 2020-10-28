@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Conta } from "../models/conta.model";
 
@@ -31,8 +31,8 @@ export class ContaService {
     return this.http.post<void>(`${this.url}/transferir`, transferencia);
   }
 
-  credit(id:number, valor): Observable<void> {
-    return this.http.post<void>(`${this.url}/${id}/creditar`,valor);
+  deposit(id: number, valor): Observable<void> {
+    return this.http.post<void>(`${this.url}/${id}/depositar`, valor);
   }
 
   debit(id:number, valor): Observable<void> {
