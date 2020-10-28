@@ -21,7 +21,7 @@ public class TransferenciaOnCommand implements Command{
     public void execute() throws InvalidValueException {
         DebitoOnCommand debitoOnCommand = new DebitoOnCommand(this.conta, this.valor);
         debitoOnCommand.execute();
-        CreditoOnCommand creditoOnCommand = new CreditoOnCommand(this.contaDestino, this.valor);
+        DepositoOnCommand creditoOnCommand = new DepositoOnCommand(this.contaDestino, this.valor);
         creditoOnCommand.execute();
     }
 }
