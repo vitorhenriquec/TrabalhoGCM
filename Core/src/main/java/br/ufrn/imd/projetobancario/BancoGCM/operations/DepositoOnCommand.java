@@ -5,11 +5,11 @@ import br.ufrn.imd.projetobancario.BancoGCM.exception.InvalidValueException;
 
 import java.math.BigDecimal;
 
-public class CreditoOnCommand implements Command{
+public class DepositoOnCommand implements Command{
     private final Conta conta;
     private BigDecimal valor;
 
-    public CreditoOnCommand(Conta conta, BigDecimal valor) {
+    public DepositoOnCommand(Conta conta, BigDecimal valor) {
         this.conta = conta;
         this.valor = valor;
     }

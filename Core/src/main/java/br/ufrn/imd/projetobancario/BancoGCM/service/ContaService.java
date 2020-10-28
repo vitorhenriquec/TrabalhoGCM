@@ -4,7 +4,7 @@ import br.ufrn.imd.projetobancario.BancoGCM.domain.Conta;
 import br.ufrn.imd.projetobancario.BancoGCM.domain.Pessoa;
 import br.ufrn.imd.projetobancario.BancoGCM.exception.InvalidValueException;
 import br.ufrn.imd.projetobancario.BancoGCM.exception.ResourceNotFoundException;
-import br.ufrn.imd.projetobancario.BancoGCM.operations.CreditoOnCommand;
+import br.ufrn.imd.projetobancario.BancoGCM.operations.DepositoOnCommand;
 import br.ufrn.imd.projetobancario.BancoGCM.operations.DebitoOnCommand;
 import br.ufrn.imd.projetobancario.BancoGCM.operations.SaldoOnCommand;
 import br.ufrn.imd.projetobancario.BancoGCM.operations.TransferenciaOnCommand;
@@ -71,9 +71,9 @@ public class ContaService {
     }
 
     @Transactional
-    public void credit(Long id, BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
+    public void deposit(Long id, BigDecimal value) throws ResourceNotFoundException, InvalidValueException {
         Conta conta = this.findOne(id);
-        CreditoOnCommand command = new CreditoOnCommand(conta, value);
+        DepositoOnCommand command = new DepositoOnCommand(conta, value);
         command.execute();
         this.save(conta);
     }

@@ -20,7 +20,7 @@ import java.util.Date;
 
 @SpringBootTest(classes = {BancoGcmApplication.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TestCreditOperation {
+class TestDepositOperation {
     @Autowired
     private ContaService contaService;
 
@@ -31,7 +31,7 @@ class TestCreditOperation {
 
     private Pessoa pessoa;
 
-    public TestCreditOperation(){
+    public TestDepositOperation(){
 
     }
 
@@ -64,9 +64,9 @@ class TestCreditOperation {
      * @throws InvalidValueException - Se o valor não for aceitável
      */
     @Test
-    public void creditandoValorContaValida() throws ResourceNotFoundException, InvalidValueException {
+    public void depositandoValorContaValida() throws ResourceNotFoundException, InvalidValueException {
         BigDecimal valor = new BigDecimal(1000);
-        this.contaService.credit(this.conta.getId(), valor);
+        this.contaService.deposit(this.conta.getId(), valor);
         this.conta = this.contaService.findOne(this.conta.getId());
         Assertions.assertEquals(new BigDecimal(9000).doubleValue(), this.conta.getSaldo().doubleValue());
     }
@@ -75,10 +75,10 @@ class TestCreditOperation {
      * Teste para creditar um valor em uma conta inválida
      */
     @Test
-    public void creditantoValorContaInvalida() {
+    public void depositandoValorContaInvalida() {
         Assertions.assertThrows(ResourceNotFoundException.class, () -> {
             BigDecimal valor = new BigDecimal(1000);
-            this.contaService.credit( 55L, valor);
+            this.contaService.deposit( 55L, valor);
         });
     }
 
@@ -86,10 +86,10 @@ class TestCreditOperation {
      * Teste de debitar um valor negativo
      */
     @Test
-    public void creditandoValorNegativo() {
+    public void depositandoValorNegativo() {
         Assertions.assertThrows(InvalidValueException.class, () -> {
             BigDecimal valor = new BigDecimal(-800);
-            this.contaService.credit(this.conta.getId(), valor);
+            this.contaService.deposit(this.conta.getId(), valor);
         });
     }
 }
