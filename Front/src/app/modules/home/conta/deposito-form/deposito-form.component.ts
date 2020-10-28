@@ -4,15 +4,15 @@ import { Conta } from "../../../../core/models/conta.model";
 import { NzMessageService } from "ng-zorro-antd";
 import { ContaService } from "../../../../core/services/conta.service";
 import { FormBuilder, Validators } from "@angular/forms";
-import {TipoContaPipe, tiposConta} from "../../../../shared/pipes/tipo-conta.pipe";
+import { TipoContaPipe, tiposConta } from "../../../../shared/pipes/tipo-conta.pipe";
 import { tap } from "rxjs/operators";
 
 @Component({
-  selector: "app-credito-form",
-  templateUrl: "./credito-form.component.html",
-  styleUrls: ["./credito-formcomponent.less"]
+  selector: "app-deposito-form",
+  templateUrl: "./deposito-form.component.html",
+  styleUrls: ["./deposito-form.component.less"]
 })
-export class CreditoFormComponent extends FormComponent<Conta> implements OnInit {
+export class DepositoFormComponent extends FormComponent<Conta> implements OnInit {
 
   public tiposContas = tiposConta;
   public contas: Conta[] = [];
@@ -35,7 +35,7 @@ export class CreditoFormComponent extends FormComponent<Conta> implements OnInit
       }
 
       this.initializeForm();
-      this.formulario.get('id').setValue(next.id);
+      this.formulario.get("id").setValue(next.id);
       this.visivel = true;
     });
   }
@@ -60,21 +60,21 @@ export class CreditoFormComponent extends FormComponent<Conta> implements OnInit
     })).subscribe();
   }
 
-  creditar() {
+  depositar() {
     const informacoes = this.formulario.getRawValue();
 
     this.salvando = true;
 
     const id = informacoes.id;
     const valor = {
-      "valor": informacoes.valor
+      valor: informacoes.valor
     };
 
-    this.contaService.credit(id, valor).pipe(tap(next => {
-      this.message.success("Creditado com sucesso");
+    this.contaService.deposit(id, valor).pipe(tap(next => {
+      this.message.success("Depositado com sucesso");
       this.close();
     }, error => {
-      this.message.error("Erro ao fazer o crédito.");
+      this.message.error("Erro ao fazer o depósito.");
       this.salvando = false;
     })).subscribe();
   }
@@ -89,7 +89,7 @@ export class CreditoFormComponent extends FormComponent<Conta> implements OnInit
   }
 
   filtrarContas() {
-    const contaSelecionadaId = this.formulario.get('id').value;
+    const contaSelecionadaId = this.formulario.get("id").value;
 
     return this.contas.filter((conta) => {
       return conta.id !== contaSelecionadaId;

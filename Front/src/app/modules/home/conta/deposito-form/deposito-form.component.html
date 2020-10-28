@@ -1,10 +1,10 @@
 <nz-drawer
-  nzTitle="Crédito"
+  nzTitle="Depósito"
   [nzVisible]="visivel"
   [nzWidth]="'40%'"
   (nzOnClose)="close()">
   <nz-spin [nzSpinning]="salvando">
-    <form nz-form nzLayout="horizontal" nzNoColon [formGroup]="formulario" (ngSubmit)="creditar()">
+    <form nz-form nzLayout="horizontal" nzNoColon [formGroup]="formulario" (ngSubmit)="depositar()">
       <nz-form-item>
         <nz-form-label nzSpan="6" nzFor="valor" nzRequired>Valor</nz-form-label>
         <nz-form-control nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
@@ -22,7 +22,7 @@
       <div nz-row nzJustify="end">
         <nz-button-group>
           <button nz-button nzType="default" type="button" (click)="close()">Fechar</button>
-          <button nz-button nzType="primary" type="submit">Creditar</button>
+          <button nz-button nzType="primary" type="submit">Depositar</button>
         </nz-button-group>
       </div>
     </form>
