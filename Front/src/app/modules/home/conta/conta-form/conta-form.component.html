@@ -1,0 +1,38 @@
+<nz-drawer
+  nzTitle="Conta"
+  [nzVisible]="visivel"
+  [nzWidth]="'40%'"
+  (nzOnClose)="close()">
+  <nz-spin [nzSpinning]="salvando">
+    <form nz-form nzLayout="horizontal" nzNoColon [formGroup]="formulario" (ngSubmit)="salvar()">
+      <nz-form-item>
+        <nz-form-label nzSpan="6" nzFor="tipoConta" nzRequired>Tipo da Conta</nz-form-label>
+        <nz-form-control nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
+          <nz-select formControlName="tipoConta" required>
+            <nz-option *ngFor="let tipo of tiposContas" [nzValue]="tipo.id" [nzLabel]="tipo.text"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzSpan="6" nzFor="pessoa" nzRequired>Dono da Conta</nz-form-label>
+        <nz-form-control nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
+          <nz-select formControlName="pessoa" required>
+            <nz-option *ngFor="let pessoa of pessoas" [nzValue]="pessoa" [nzLabel]="pessoa.nome"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-row nzJustify="end">
+        <nz-button-group>
+          <button nz-button nzType="default" type="button" (click)="close()">Fechar</button>
+          <button nz-button nzType="primary" type="submit" [disabled]="formulario.invalid">Salvar</button>
+        </nz-button-group>
+      </div>
+    </form>
+  </nz-spin>
+</nz-drawer>
+
+<ng-template #campoRequiredErrorTpl let-control>
+  <small *ngIf="control.hasError('required')">
+    Campo requerido
+  </small>
+</ng-template>

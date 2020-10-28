@@ -1,0 +1,16 @@
+<nz-layout style="height: 100%">
+  <nz-sider nzCollapsible [nzCollapsed]="collapsed" [nzTrigger]="null">
+    <div class="logo"></div>
+    <ul nz-menu nzMode="inline" nzTheme="dark">
+      <li nz-menu-item routerLink="pessoa" nz-tooltip="Pessoas"><span>Pessoas</span></li>
+      <li nz-menu-item routerLink="conta" nz-tooltip="Contas"><span>Contas</span></li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header><h1>Olá, <span class="nome-usuario"> Usuário</span></h1></nz-header>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+    <nz-footer>Banco GCM (c)</nz-footer>
+  </nz-layout>
+</nz-layout>
