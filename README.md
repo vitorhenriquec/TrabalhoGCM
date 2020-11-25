@@ -1,3 +1,3 @@
 # TrabalhoGCM
 
-Testando o prepare commit
+Testando o prepare commit hook
