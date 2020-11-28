@@ -3,32 +3,41 @@
 echo "checagem do commit..."
 
 MENSAGEM="$(cat $1)"
-PADRAO="^#[0-9]+"
-NUMERO_ISSUE="$(echo $MENSAGEM | grep -o -E '[0-9]+')"
+PADRAO="$(echo $MENSAGEM | grep -o -E '#[0-9]*')"
+NUMERO_ISSUE="$(echo $PADRAO | grep -o -E '[0-9]+')"
+
 # Verificando se está no padrão
-if [ $MENSAGEM -ne $PADRAO ] then
-	echo "Commit não está no padrão!"
-	exit 1;
+if [ -z $PADRAO ];then
+	echo "Commit não está no padrão! Deve conter #[0-9]+ referente ao número da issue."
+	exit 1
 fi
 
 # Verificando se foi atribuído um número de issue ao commit
-if [ $NUMERO_ISSUE -eq "" ] then
-	echo "Não foi atribuído um número de issue ao commit!"
-	exit 1;
+if [ -z "$NUMERO_ISSUE" ];then
+	echo "Não foi atribuído um número de issue ao commit! Por favor, informe o número da issue no commit."
+	exit 1
 fi
 
+echo "Verificando issue $PADRAO..."
 
-CURL_ARGS="-f -s -S -k"
+CURL_ARGS="-s -S -k"
 API_URL="https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE"
 JSON="$(curl $CURL_ARGS $API_URL)"
 
-echo "$JSON"
+NOT_FOUND="$(echo $JSON | jq -r '.message')"
 
-if [ $JSON.state -eq "open" ] then
+if [ "$NOT_FOUND" = "Not Found" ];then
+	echo "Erro: Issue não encontrada!"
+	exit 1;
+fi
+
+STATE="$(echo $JSON | jq -r '.state')"
+
+if [ "$STATE" = "open" ];then
 	echo "Issue aberta encontrada"
 else
-	echo "Issue não encontrada ou não aberta"
-	exit 1;
+	echo "Issue fechada"
+	exit 1
 fi
 
 exit 0;
