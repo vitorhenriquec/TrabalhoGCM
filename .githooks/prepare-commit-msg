@@ -37,21 +37,26 @@ fi
 STATE="$(echo $JSON | jq -r '.state')";
 
 if [ "$STATE" = "open" ];then
-	echo "Issue aberta encontrada";
+	echo "Issue aberta. Verificando se possui label 'doing'...";
 else
 	echo "Issue fechada";
 	exit 1;
 fi
 
-# Verificar se tem label "doing"
-LABELS="$(echo $JSON | jq --compact-output '.labels[].name')";
+# Capturando a quantidade de labels associadas
+LENGTH="$(echo $JSON | jq '.labels | length')";
 
-for LABEL in ${LABELS[*]};do
-	if [ "$LABEL" = "doing" ];then
-		# Deu certo
+i=0
+while [ "$i" -lt "$LENGTH" ];do
+	PARAMETRO=".labels[$i].name"
+	LABEL="$(echo $JSON | jq --compact-output $PARAMETRO)"
+	# Verificando se tem label "doing"
+	if [ "$LABEL" = "\"doing\"" ];then
+		# Achou label "doing"
 		exit 0;
 		break;
 	fi
+	i=$(( i + 1 ));
 done
 
 exit 1;
