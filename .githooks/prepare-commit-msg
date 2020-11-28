@@ -1,43 +1,57 @@
 #!/bin/sh
 
-echo "checagem do commit..."
+echo "Checagem do commit...";
 
-MENSAGEM="$(cat $1)"
-PADRAO="$(echo $MENSAGEM | grep -o -E '#[0-9]*')"
-NUMERO_ISSUE="$(echo $PADRAO | grep -o -E '[0-9]+')"
+MENSAGEM="$(cat $1)";
+PADRAO="$(echo $MENSAGEM | grep -o -E '#[0-9]*')";
+NUMERO_ISSUE="$(echo $PADRAO | grep -o -E '[0-9]+')";
 
 # Verificando se está no padrão
 if [ -z $PADRAO ];then
-	echo "Commit não está no padrão! Deve conter #[0-9]+ referente ao número da issue."
+	echo "Commit não está no padrão! Deve conter #[0-9]+ referente ao número da issue.";
 	exit 1
 fi
 
 # Verificando se foi atribuído um número de issue ao commit
 if [ -z "$NUMERO_ISSUE" ];then
-	echo "Não foi atribuído um número de issue ao commit! Por favor, informe o número da issue no commit."
-	exit 1
-fi
-
-echo "Verificando issue $PADRAO..."
-
-CURL_ARGS="-s -S -k"
-API_URL="https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE"
-JSON="$(curl $CURL_ARGS $API_URL)"
-
-NOT_FOUND="$(echo $JSON | jq -r '.message')"
-
-if [ "$NOT_FOUND" = "Not Found" ];then
-	echo "Erro: Issue não encontrada!"
+	echo "Não foi atribuído um número de issue ao commit! Por favor, informe o número da issue no commit.";
 	exit 1;
 fi
 
-STATE="$(echo $JSON | jq -r '.state')"
+echo "Verificando issue $PADRAO...";
 
-if [ "$STATE" = "open" ];then
-	echo "Issue aberta encontrada"
-else
-	echo "Issue fechada"
-	exit 1
+CURL_ARGS="-s -S -k";
+API_URL="https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE";
+TOKEN="-H 'Authorization: Token da7ba6da5b1df303183cda4c11bf77f5a7a3ccb6'";
+JSON="$(curl $CURL_ARGS $API_URL)";
+
+NOT_FOUND="$(echo $JSON | jq -r '.message')";
+
+# Se a mensagem for Not Found, então deu 404
+if [ "$NOT_FOUND" = "Not Found" ];then
+	echo "Erro: Issue não encontrada!";
+	exit 1;
 fi
 
-exit 0;
+# Capturando JSON.state
+STATE="$(echo $JSON | jq -r '.state')";
+
+if [ "$STATE" = "open" ];then
+	echo "Issue aberta encontrada";
+else
+	echo "Issue fechada";
+	exit 1;
+fi
+
+# Verificar se tem label "doing"
+LABELS="$(echo $JSON | jq --compact-output '.labels[].name')";
+
+for LABEL in ${LABELS[*]};do
+	if [ "$LABEL" = "doing" ];then
+		# Deu certo
+		exit 0;
+		break;
+	fi
+done
+
+exit 1;
