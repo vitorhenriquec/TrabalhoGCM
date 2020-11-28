@@ -5,14 +5,18 @@ echo "checagem do commit..."
 MENSAGEM="$(cat $1)"
 PADRAO="^#[0-9]+"
 NUMERO_ISSUE="$(echo $MENSAGEM | grep -o -E '[0-9]+')"
-
-if [[ $MENSAGEM ~= $PADRAO ]]; then
+# Verificando se está no padrão
+if [ $MENSAGEM -ne $PADRAO ] then
 	echo "Commit não está no padrão!"
-	exit 0;
-else
-	echo "Não foi atribuído um número de issue ao commit!"
-	exit 0;
+	exit 1;
 fi
+
+# Verificando se foi atribuído um número de issue ao commit
+if [ $NUMERO_ISSUE -eq "" ] then
+	echo "Não foi atribuído um número de issue ao commit!"
+	exit 1;
+fi
+
 
 CURL_ARGS="-f -s -S -k"
 API_URL="https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE"
@@ -20,11 +24,11 @@ JSON="$(curl $CURL_ARGS $API_URL)"
 
 echo "$JSON"
 
-if [[ $JSON.state == "open" ]]; then
+if [ $JSON.state -eq "open" ] then
 	echo "Issue aberta encontrada"
 else
 	echo "Issue não encontrada ou não aberta"
-	exit 0;
+	exit 1;
 fi
 
-exit 1;
+exit 0;
