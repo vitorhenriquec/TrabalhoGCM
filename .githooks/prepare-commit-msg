@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Checagem do commit...";
+echo "Checagem do commit... [0%]";
 
 MENSAGEM="$(cat $1)";
 PADRAO="$(echo $MENSAGEM | grep -o -E '#[0-9]*')";
@@ -8,17 +8,19 @@ NUMERO_ISSUE="$(echo $PADRAO | grep -o -E '[0-9]+')";
 
 # Verificando se está no padrão
 if [ -z $PADRAO ];then
-	echo "Commit não está no padrão! Deve conter #[0-9]+ referente ao número da issue.";
+	echo "Erro: Commit não está no padrão! Faltando #xxx. Ex.: #989 | 989 é uma issue";
+	echo "Commit abortado."
 	exit 1
 fi
 
 # Verificando se foi atribuído um número de issue ao commit
 if [ -z "$NUMERO_ISSUE" ];then
-	echo "Não foi atribuído um número de issue ao commit! Por favor, informe o número da issue no commit.";
+	echo "Erro: Número da issue faltando";
+	echo "Commit abortado."
 	exit 1;
 fi
 
-echo "Verificando issue $PADRAO...";
+echo "Verificando issue $PADRAO... [33%]";
 
 CURL_ARGS="-s -S -k";
 API_URL="https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE";
@@ -30,6 +32,7 @@ NOT_FOUND="$(echo $JSON | jq -r '.message')";
 # Se a mensagem for Not Found, então deu 404
 if [ "$NOT_FOUND" = "Not Found" ];then
 	echo "Erro: Issue não encontrada!";
+	echo "Commit abortado."
 	exit 1;
 fi
 
@@ -37,9 +40,10 @@ fi
 STATE="$(echo $JSON | jq -r '.state')";
 
 if [ "$STATE" = "open" ];then
-	echo "Issue aberta. Verificando se possui label 'doing'...";
+	echo "Issue aberta. Verificando se possui label 'doing'... [66%]";
 else
-	echo "Issue fechada";
+	echo "Erro: Issue fechada";
+	echo "Commit abortado."
 	exit 1;
 fi
 
@@ -53,10 +57,12 @@ while [ "$i" -lt "$LENGTH" ];do
 	# Verificando se tem label "doing"
 	if [ "$LABEL" = "\"doing\"" ];then
 		# Achou label "doing"
+		echo "Tudo certo! Commit realizado. [100%]"
 		exit 0;
 		break;
 	fi
 	i=$(( i + 1 ));
 done
 
+echo "Ocorreu algum erro. Commit abortado."
 exit 1;
