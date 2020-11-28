@@ -3,15 +3,15 @@
 echo "checagem do commit..."
 
 MENSAGEM="$(cat $1)"
-PADRAO="^#[0-9]*"
+PADRAO="^#[0-9]+"
 NUMERO_ISSUE="$(echo $MENSAGEM | grep -o -E '[0-9]+')"
 
 if [[ $MENSAGEM ~= $PADRAO ]]; then
 	echo "Commit não está no padrão!"
-	exit 1;
+	exit 0;
 else
 	echo "Não foi atribuído um número de issue ao commit!"
-	exit 1;
+	exit 0;
 fi
 
 CURL_ARGS="-f -s -S -k"
@@ -24,5 +24,7 @@ if [[ $JSON.state == "open" ]]; then
 	echo "Issue aberta encontrada"
 else
 	echo "Issue não encontrada ou não aberta"
-	exit 1;
+	exit 0;
 fi
+
+exit 1;
