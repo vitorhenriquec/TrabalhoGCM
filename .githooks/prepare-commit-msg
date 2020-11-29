@@ -72,7 +72,7 @@ while [ "$i" -lt "$LENGTH" ];do
 		DATA="-d '{ 'body':'$COMENTARIO'}'";
 		#JSON="$(curl $CURL_ARGS $TOKEN $DATA $API_URL)";
 
-		echo "$CURL_ARGS $TOKEN $DATA $API_UR";
+		echo "$CURL_ARGS $TOKEN $DATA $API_URL";
 
 		exit 0;
 		break;
