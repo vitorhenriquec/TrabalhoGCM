@@ -74,7 +74,8 @@ while [ "$i" -lt "$LENGTH" ];do
 		DATA="--data '{ \'body\':\"$COMENTARIO\'}'";
 		JSON="$(curl $CURL_ARGS $TOKEN $API_URL $DATA)";
 
-		echo $JSON;
+		TEST="$(echo $JSON jq -r '.message')";
+		echo $TEST
 
 		exit 0;
 		break;
