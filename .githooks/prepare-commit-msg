@@ -24,7 +24,7 @@ echo "Verificando issue $PADRAO... [33%]";
 
 CURL_ARGS="-s -S -k";
 API_URL="https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE";
-TOKEN="-H 'Authorization: Token 107c098554bd180524307929ceed659f1ac96de8'";
+TOKEN="-H 'Authorization: Token dd9c611dd83cdf7da1a7493b0a622556b4017844'";
 JSON="$(curl $CURL_ARGS $API_URL)";
 
 NOT_FOUND="$(echo $JSON | jq -r '.message')";
@@ -68,9 +68,9 @@ while [ "$i" -lt "$LENGTH" ];do
 		COMENTARIO="$(echo $COMENTARIO | tr -d '\n')"
 
 
-		CURL_ARGS="-s -o nul -X POST -H 'Accept: application/vnd.github.v3+json '";
+		CURL_ARGS="-X POST -H 'Content-Type: application/json'";
 		API_URL="https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments";
-		DATA="--data '{ \'body\':\"$COMENTARIO\'}'";
+		DATA="-data '{ \'body\':\'$COMENTARIO\'}'";
 		JSON="$(curl $CURL_ARGS $TOKEN $API_URL $DATA)";
 
 		exit 0;
