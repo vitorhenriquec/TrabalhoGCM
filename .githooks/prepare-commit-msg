@@ -67,12 +67,7 @@ while [ "$i" -lt "$LENGTH" ];do
 		COMENTARIO="$COMENTARIO$MENSAGEM"
 		COMENTARIO="$(echo $COMENTARIO | tr -d '\n')"
 
-		CURL_ARGS="-X POST -H 'Content-Type: application/json'";
-		API_URL="https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments";
-		DATA='-d '{ "body":"$COMENTARIO"}'';
-		JSON="$(curl $CURL_ARGS $TOKEN $DATA $API_URL)";
-
-		echo "$CURL_ARGS $TOKEN $DATA $API_URL"
+		curl -X POST -H "Content-Type: application/json" -H "Authorization: Token dd9c611dd83cdf7da1a7493b0a622556b4017844" -d '{ "body":"'$COMENTARIO'"}' https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments
 
 		exit 0;
 		break;
