@@ -66,16 +66,13 @@ while [ "$i" -lt "$LENGTH" ];do
 		COMENTARIO="$COMENTARIO$(git diff --name-only HEAD HEAD~1) \n"
 		COMENTARIO="$COMENTARIO$MENSAGEM"
 		COMENTARIO="$(echo $COMENTARIO | tr -d '\n')"
-		
-		echo $COMENTARIO;
+
 
 		CURL_ARGS="-s -o nul -X POST -H 'Accept: application/vnd.github.v3+json '";
 		API_URL="https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments";
 		DATA="--data '{ \'body\':\"$COMENTARIO\'}'";
 		JSON="$(curl $CURL_ARGS $TOKEN $API_URL $DATA)";
-
-		TEST="$(echo $JSON jq -r '.message')";
-		echo $TEST
+		echo "curl $CURL_ARGS $TOKEN $API_URL $DATA"
 
 		exit 0;
 		break;
