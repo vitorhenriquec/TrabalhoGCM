@@ -24,7 +24,7 @@ echo "Verificando issue $PADRAO... [33%]";
 
 CURL_ARGS="-s -S -k";
 API_URL="https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE";
-TOKEN="-H 'Authorization: Token 3a91e6c29b6c4d94a96bdf3d26c399feae308f31'";
+TOKEN="-H 'Authorization: Token 107c098554bd180524307929ceed659f1ac96de8'";
 JSON="$(curl $CURL_ARGS $API_URL)";
 
 NOT_FOUND="$(echo $JSON | jq -r '.message')";
