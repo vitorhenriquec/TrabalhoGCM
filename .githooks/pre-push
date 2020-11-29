@@ -3,13 +3,13 @@
 MENSAGEM="$(git show --format='%B' -s $SHA1)"
 NUMERO_ISSUE="$(echo $MENSAGEM | grep -o -E '[0-9]+')"
 
-COMENTARIO=" "
-COMENTARIO="$COMENTARIO$(date) \n"
-COMENTARIO="$COMENTARIO$(git config user.name) \n"
-COMENTARIO="$COMENTARIO$(git diff --name-only HEAD HEAD~1) \n"
-COMENTARIO="$COMENTARIO$MENSAGEM"
-COMENTARIO="$(echo $COMENTARIO | tr -d '\n')"
+COMENTARIO=""
+		COMENTARIO="$COMENTARIO$(date) \n"
+		COMENTARIO="$COMENTARIO$(git config user.name) \n"
+		COMENTARIO="$COMENTARIO$(git diff --name-only HEAD HEAD~1) \n"
+		COMENTARIO="$COMENTARIO$MENSAGEM"
+		COMENTARIO="$(echo $COMENTARIO | tr -d '\n')"
 
-curl -s -o nul -X POST -H "Accept: application/vnd.github.v3+json " -H "Authorization: token 6d3e89dcca219148946a9db79bdc464cbcbb479f" https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments --data "{ \"body\":\"$COMENTARIO\"}"
+		curl -X POST -H "Content-Type: application/json" -H "Authorization: Token dd9c611dd83cdf7da1a7493b0a622556b4017844" -d "{ \"body\":\"$COMENTARIO\"}" https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments
 
 exit 0
