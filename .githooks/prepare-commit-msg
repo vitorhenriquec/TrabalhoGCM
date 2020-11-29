@@ -72,7 +72,6 @@ while [ "$i" -lt "$LENGTH" ];do
 		API_URL="https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments";
 		DATA="--data '{ \'body\':\"$COMENTARIO\'}'";
 		JSON="$(curl $CURL_ARGS $TOKEN $API_URL $DATA)";
-		echo "curl $CURL_ARGS $TOKEN $API_URL $DATA"
 
 		exit 0;
 		break;
