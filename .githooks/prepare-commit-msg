@@ -61,13 +61,13 @@ while [ "$i" -lt "$LENGTH" ];do
 
 		MENSAGEM="$(git show --format='%B' -s $SHA1)"
 		COMENTARIO=""
-		COMENTARIO="$COMENTARIO$(date) \n"
+		COMENTARIO="$COMENTARIO$(date +'%d/%m/%y %T') \n"
 		COMENTARIO="$COMENTARIO$(git config user.name) \n"
 		COMENTARIO="$COMENTARIO$(git diff --name-only HEAD HEAD~1) \n"
 		COMENTARIO="$COMENTARIO$MENSAGEM"
 		COMENTARIO="$(echo $COMENTARIO | tr -d '\n')"
 
-		curl -X POST -H "Content-Type: application/json" -H "Authorization: Token bc8c7ea84dd70e5372699ce00160481e220d92e8" -d "{ \"body\":\"$COMENTARIO\"}" https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments
+		curl -X POST -H "Content-Type: application/json" -H "Authorization: Token dd9c611dd83cdf7da1a7493b0a622556b4017844" -d "{ \"body\":\"$COMENTARIO\"}" https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments
 
 		exit 0;
 		break;
