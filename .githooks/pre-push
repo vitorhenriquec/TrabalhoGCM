@@ -4,6 +4,8 @@ CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD);
 
 COMMITS=$(git log $CURRENT_BRANCH --not --remotes --pretty=format:%s);
 
+echo $COMMITS
+
 for COMMIT in $COMMITS do
     PADRAO="$(echo $COMMIT | grep -o -E '#[0-9]*')";
     NUMERO_ISSUE="$(echo $PADRAO | grep -o -E '[0-9]+')";
@@ -45,6 +47,7 @@ for COMMIT in $COMMITS do
         # Verificando se tem label "doing"
         if [ "$LABEL" = "\"doing\"" ];then
             # Achou label "doing"
+            echo "Encontrou doing"
             $NAO_ENCONTROU_DOING = false
             break;
         fi
