@@ -37,15 +37,15 @@ if [ "$NOT_FOUND" = "Not Found" ];then
 fi
 
 # Capturando JSON.state
-STATE="$(echo $JSON | jq -r '.state')";
+# STATE="$(echo $JSON | jq -r '.state')";
 
-if [ "$STATE" = "open" ];then
-	echo "Issue aberta. Verificando se possui label 'doing'... [66%]";
-else
-	echo "Erro: Issue fechada";
-	echo "Commit abortado."
-	exit 1;
-fi
+# if [ "$STATE" = "open" ];then
+# 	echo "Issue aberta. Verificando se possui label 'doing'... [66%]";
+# else
+# 	echo "Erro: Issue fechada";
+# 	echo "Commit abortado."
+# 	exit 1;
+# fi
 
 # Capturando a quantidade de labels associadas
 LENGTH="$(echo $JSON | jq '.labels | length')";
