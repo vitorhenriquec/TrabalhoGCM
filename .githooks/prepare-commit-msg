@@ -1,0 +1,79 @@
+#!/bin/sh
+
+echo "Checagem do commit... [0%]";
+
+MENSAGEM="$(cat $1)";
+PADRAO="$(echo $MENSAGEM | grep -o -E '#[0-9]*')";
+NUMERO_ISSUE="$(echo $PADRAO | grep -o -E '[0-9]+')";
+
+# Verificando se está no padrão
+if [ -z $PADRAO ];then
+	echo "Erro: Commit não está no padrão! Faltando #xxx. Ex.: #989 | 989 é uma issue";
+	echo "Commit abortado."
+	exit 1
+fi
+
+# Verificando se foi atribuído um número de issue ao commit
+if [ -z "$NUMERO_ISSUE" ];then
+	echo "Erro: Número da issue faltando";
+	echo "Commit abortado."
+	exit 1;
+fi
+
+echo "Verificando issue $PADRAO... [33%]";
+
+CURL_ARGS="-s -S -k";
+API_URL="https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE";
+TOKEN="-H 'Authorization: Token dd9c611dd83cdf7da1a7493b0a622556b4017844'";
+JSON="$(curl $CURL_ARGS $API_URL)";
+
+NOT_FOUND="$(echo $JSON | jq -r '.message')";
+
+# Se a mensagem for Not Found, então deu 404
+if [ "$NOT_FOUND" = "Not Found" ];then
+	echo "Erro: Issue não encontrada!";
+	echo "Commit abortado."
+	exit 1;
+fi
+
+# Capturando JSON.state
+STATE="$(echo $JSON | jq -r '.state')";
+
+if [ "$STATE" = "open" ];then
+	echo "Issue aberta. Verificando se possui label 'doing'... [66%]";
+else
+	echo "Erro: Issue fechada";
+	echo "Commit abortado."
+	exit 1;
+fi
+
+# Capturando a quantidade de labels associadas
+LENGTH="$(echo $JSON | jq '.labels | length')";
+
+i=0
+while [ "$i" -lt "$LENGTH" ];do
+	PARAMETRO=".labels[$i].name"
+	LABEL="$(echo $JSON | jq --compact-output $PARAMETRO)"
+	# Verificando se tem label "doing"
+	if [ "$LABEL" = "\"doing\"" ];then
+		# Achou label "doing"
+		echo "Tudo certo! Commit realizado. [100%]"
+
+		MENSAGEM="$(git show --format='%B' -s $SHA1)"
+		COMENTARIO=""
+		COMENTARIO="$COMENTARIO$(date +'%d/%m/%y %T') \n"
+		COMENTARIO="$COMENTARIO$(git config user.name) \n"
+		COMENTARIO="$COMENTARIO$(git diff --name-only HEAD HEAD~1) \n"
+		COMENTARIO="$COMENTARIO$MENSAGEM"
+		COMENTARIO="$(echo $COMENTARIO | tr -d '\n')"
+
+		curl -X POST -H "Content-Type: application/json" -H "Authorization: Token dd9c611dd83cdf7da1a7493b0a622556b4017844" -d "{ \"body\":\"$COMENTARIO\"}" https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments
+
+		exit 0;
+		break;
+	fi
+	i=$(( i + 1 ));
+done
+
+echo "Ocorreu algum erro. Commit abortado."
+exit 1;

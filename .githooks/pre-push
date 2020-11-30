@@ -1,0 +1,15 @@
+#!/bin/sh
+
+MENSAGEM="$(git show --format='%B' -s $SHA1)"
+NUMERO_ISSUE="$(echo $MENSAGEM | grep -o -E '[0-9]+')"
+
+COMENTARIO=""
+COMENTARIO="$COMENTARIO$(date +"%d/%m/%y %T") \n"
+COMENTARIO="$COMENTARIO$(git config user.name) \n"
+COMENTARIO="$COMENTARIO$(git diff --name-only HEAD HEAD~1) \n"
+COMENTARIO="$COMENTARIO$MENSAGEM"
+COMENTARIO="$(echo $COMENTARIO | tr -d '\n')"
+
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Token dd9c611dd83cdf7da1a7493b0a622556b4017844" -d "{ \"body\":\"$COMENTARIO\"}" https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments
+
+exit 0
