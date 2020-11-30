@@ -20,7 +20,7 @@ for COMMIT in $COMMITS;do
 
     # Se a mensagem for Not Found, então deu 404
     if [ "$NOT_FOUND" = "Not Found" ];then
-        echo "Erro: Issue não encontrada!";
+        echo "Erro: Issue do commit $COMMIT ($PADRAO) não encontrada!";
         echo "Push abortado."
         exit 1;
     fi
@@ -29,9 +29,9 @@ for COMMIT in $COMMITS;do
     STATE="$(echo $JSON | jq -r '.state')";
 
     if [ "$STATE" = "open" ];then
-        echo "Issue aberta. Verificando se possui label 'doing'... [66%]";
+        echo "Issue do commit $COMMIT ($PADRAO) aberta. Verificando se possui label 'doing'...";
     else
-        echo "Erro: Issue fechada";
+        echo "Erro: Issue do commit $COMMIT ($PADRAO) fechada";
         echo "Push abortado."
         exit 1;
     fi
@@ -39,7 +39,7 @@ for COMMIT in $COMMITS;do
     # Capturando a quantidade de labels associadas
     LENGTH="$(echo $JSON | jq '.labels | length')";
 
-    NAO_ENCONTROU_DOING = true;
+    NAO_ENCONTROU_DOING=true;
 
     i=0
     while [ "$i" -lt "$LENGTH" ];do
@@ -48,15 +48,24 @@ for COMMIT in $COMMITS;do
         # Verificando se tem label "doing"
         if [ "$LABEL" = "\"doing\"" ];then
             # Achou label "doing"
-            echo "Encontrou doing"
-            $NAO_ENCONTROU_DOING = false
+            NAO_ENCONTROU_DOING=false
             break;
         fi
         i=$(( i + 1 ));
     done
 
     if $NAO_ENCONTROU_DOING;then
-        echo "Issue não possui a lable Doing. Push abortado."
+        echo "Issue do commit $COMMIT ($PADRAO) não possui a lable Doing. Push abortado."
         exit 1;
     fi
 done
+
+PUSH_MENSAGEM="Pushed $COMMITS"
+COMENTARIO=""
+COMENTARIO="$COMENTARIO$(date +'%d/%m/%y %T') \n"
+COMENTARIO="$COMENTARIO$(git config user.name) \n"
+COMENTARIO="$COMENTARIO$(git diff --name-only HEAD HEAD~1) \n"
+COMENTARIO="$COMENTARIO$PUSH_MENSAGEM"
+COMENTARIO="$(echo $COMENTARIO | tr -d '\n')"
+
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Token dd9c611dd83cdf7da1a7493b0a622556b4017844" -d "{ \"body\":\"$COMENTARIO\"}" https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments
