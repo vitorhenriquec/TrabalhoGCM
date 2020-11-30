@@ -1,13 +1,14 @@
 #!/bin/sh
 
+# Branch atual
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD);
 
-COMMITS=$(git log $CURRENT_BRANCH --not --remotes --pretty=format:%s);
+# Commits locais que ainda não subiram
+COMMITS=$(git log $CURRENT_BRANCH --not --remotes --pretty=format:%H);
 
-echo $COMMITS
-
-for COMMIT in $COMMITS do
-    PADRAO="$(echo $COMMIT | grep -o -E '#[0-9]*')";
+for COMMIT in $COMMITS;do
+    MENSAGEM=$(git log --format=%B -n 1 $COMMIT);
+    PADRAO="$(echo $MENSAGEM | grep -o -E '#[0-9]*')";
     NUMERO_ISSUE="$(echo $PADRAO | grep -o -E '[0-9]+')";
 
     CURL_ARGS="-s -S -k";
@@ -54,7 +55,7 @@ for COMMIT in $COMMITS do
         i=$(( i + 1 ));
     done
 
-    if NAO_ENCONTROU_DOING;then
+    if $NAO_ENCONTROU_DOING;then
         echo "Issue não possui a lable Doing. Push abortado."
         exit 1;
     fi
