@@ -1,5 +1,9 @@
 #!/bin/sh
 
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+COMMITS=$(git log $CURRENT_BRANCH --not --remotes)
+
 MENSAGEM="$(git show --format='%B' -s $SHA1)"
 NUMERO_ISSUE="$(echo $MENSAGEM | grep -o -E '[0-9]+')"
 
