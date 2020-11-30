@@ -1,0 +1,44 @@
+<nz-drawer
+  nzTitle="Transferência"
+  [nzVisible]="visivel"
+  [nzWidth]="'40%'"
+  (nzOnClose)="close()">
+  <nz-spin [nzSpinning]="salvando">
+    <form nz-form nzLayout="horizontal" nzNoColon [formGroup]="formulario" (ngSubmit)="transferir()">
+      <nz-form-item>
+        <nz-form-label nzSpan="6" nzFor="conta" nzRequired>Conta Destino</nz-form-label>
+        <nz-form-control nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
+          <nz-select formControlName="conta" required>
+            <nz-option *ngFor="let conta of filtrarContas()" [nzValue]="conta.id" [nzLabel]="recuperarLabel(conta)"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzSpan="6" nzFor="valor" nzRequired>Valor</nz-form-label>
+        <nz-form-control nzSpan="14" [nzErrorTip]="campoRequiredErrorTpl">
+          <input
+            nz-input
+            id="valor"
+            name="valor"
+            formControlName="valor"
+            placeholder="Valor da transferência"
+            currencyMask
+            [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: false}"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-row nzJustify="end">
+        <nz-button-group>
+          <button nz-button nzType="default" type="button" (click)="close()">Fechar</button>
+          <button nz-button nzType="primary" type="submit" [disabled]="formulario.invalid">Transferir</button>
+        </nz-button-group>
+      </div>
+    </form>
+  </nz-spin>
+</nz-drawer>
+
+<ng-template #campoRequiredErrorTpl let-control>
+  <small *ngIf="control.hasError('required')">
+    Campo requerido
+  </small>
+</ng-template>
