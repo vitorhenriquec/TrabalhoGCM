@@ -67,7 +67,7 @@ while [ "$i" -lt "$LENGTH" ];do
 		COMENTARIO="$COMENTARIO$MENSAGEM"
 		COMENTARIO="$(echo $COMENTARIO | tr -d '\n')"
 
-		curl -X POST -H "Content-Type: application/json" -H "Authorization: Token 61732e584df0c55dd37057440c44a9d4f7164eca" -d "{ \"body\":\"$COMENTARIO\"}" https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments
+		curl -X POST -H "Content-Type: application/json" -H "Authorization: Token 2fa8f13b2d42a025c36138110863fce1928583c9" -d "{ \"body\":\"$COMENTARIO\"}" https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments
 
 		exit 0;
 		break;
