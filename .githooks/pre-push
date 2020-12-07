@@ -68,4 +68,4 @@ COMENTARIO="$COMENTARIO$(git diff --name-only HEAD HEAD~1) \n"
 COMENTARIO="$COMENTARIO$PUSH_MENSAGEM"
 COMENTARIO="$(echo $COMENTARIO | tr -d '\n')"
 
-CURL_LAST_ARGS='$(curl -X POST -H "Content-Type: application/json" -H "Authorization: Token 3a1a90226d04f35844ebc9d43596efcd79f0a457" -d "{ \"body\":\"$COMENTARIO\"}" https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments)'
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Token 3a1a90226d04f35844ebc9d43596efcd79f0a457" -d "{ \"body\":\"$COMENTARIO\"}" https://api.github.com/repos/vitorhenriquec/TrabalhoGCM/issues/$NUMERO_ISSUE/comments
