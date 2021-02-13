@@ -14,5 +14,6 @@ public class ContaDTO {
     private Long id;
     private TipoConta tipoConta;
     private BigDecimal saldo;
+    private BigDecimal saldoBonus;
     private PessoaDTO pessoa;
 }

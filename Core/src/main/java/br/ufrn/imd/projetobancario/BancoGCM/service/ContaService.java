@@ -75,6 +75,7 @@ public class ContaService {
         Conta conta = this.findOne(id);
         DepositoOnCommand command = new DepositoOnCommand(conta, value);
         command.execute();
+        conta.setSaldoBonus(conta.getSaldo().add(conta.getSaldo().divide(BigDecimal.valueOf(100))));
         this.save(conta);
     }
 
